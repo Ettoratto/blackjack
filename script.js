@@ -50,9 +50,6 @@ function bet(){
 
 function deal(){
 
-    if(c == 51)
-        shuffle()
-
     let dealt = []
     for(let i = 0; i < 4; i++){
         dealt.push(cardData[cards[c].toString()])
@@ -65,6 +62,8 @@ function deal(){
     dealerCards.innerHTML =  dealt[0] + "<span id='facedown'>" + cardData["redBack"] + "</span>" + "<span id='faceup' hidden>" + dealt[1] + "</span>"
 
     playerCards.innerHTML = dealt[2] + dealt[3]
+
+    shuffle()
 }
 
 
@@ -84,7 +83,8 @@ function buy(){
 
 function shuffle(){
 
-    cards.sort(() => Math.random() - 0.5)
+    cards.sort(() => Math.random()     if(c == 51)
+        shuffle()- 0.5)
     c = 0;
 }
 
