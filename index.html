@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link rel="stylesheet" href="./style.css">
+
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Quantico:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+
+    </head>
+    <body onload="init()">
+        <script src="./script.js" defer></script>
+
+        <div class="container">  
+            <table class="table">
+                <tr>
+                    <td>
+                        <div class="dealer">
+                            Dealer
+
+                            <div class="cards" id="dealer-cards">
+                                
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="player">
+                            <span contenteditable="true">Player</span>
+
+
+                            <div class="cards" id="player-cards">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="bet">
+                
+                <div>
+                    <button onclick="stand()" class="stand-button"></button>
+                    <br>
+                    Stand
+                </div>
+                
+                <button onclick="bet()" class="bet-button">
+                    Bet
+                </button>
+
+                <div>
+                    <button onclick="hit()" class="hit-button"></button>
+                    <br>Hit
+                </div>
+
+            </div>
+           <div class="funds-container">
+
+                <div class="bet-amount">
+                    <input type="number" id="bet-amount" min="0" max="1000000"  placeholder="Bet amount">
+                </div>
+
+                <div class="funds">
+                    <div class="add-funds">
+                        <input type="number" min="0" max="1000000" id="add-funds" placeholder="0 - 1'000'000">
+                        <button onclick="buy()">
+                            Buy chips
+                        </button>
+                    </div>
+                    <span class="balance" id="balance">
+                        Balance: 
+                    </span>
+                </div>
+           </div>
+        </div>
+    </body>
+</html>

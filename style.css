@@ -1,0 +1,232 @@
+.dealer{
+
+    height: 100px;
+}
+
+.player{
+
+    height: 100px;
+}
+
+.dealer, .player {
+    height: auto;
+    min-height: 120px;
+    color: white; 
+}
+
+.cards{
+
+    box-sizing: content-box;
+}
+
+.bet{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    text-align: center;
+}
+
+.bet > * {
+    margin: 8px;
+}
+
+.bet-amount{
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    height: 40px;
+}
+
+.funds{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+    width: 100%;
+}
+
+.balance{
+
+    letter-spacing: 0.5px;
+}
+
+.add-funds{
+
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.add-funds > button{
+
+    border-radius: 20px;
+    margin-left: 5px;
+}
+
+.stand-button{
+
+    background-color: rgb(72, 193, 72) !important;
+
+}
+
+.hit-button{
+
+    background-color: rgb(207, 46, 46) !important;
+
+}
+
+.stand-button, .hit-button{
+
+    border-radius: 200px;
+    width: 60px;
+    height: 60px;
+
+    background: url(./chip.svg);
+    background-size: cover;
+    background-position: 0;
+    background-repeat: no-repeat;
+}
+
+.bet-button{
+
+    align-self: center;
+    height: 60px;
+    width: 200px;
+
+    font-size: large;
+    letter-spacing: 1px;
+}
+
+svg{
+
+    width: 100px;
+    height: 100px;
+
+}
+
+.table {
+ 
+    background-image: url('./table.jpg');
+    background-size: 100% 100%; 
+    background-repeat: no-repeat;
+    background-position: center;
+
+    width: 600px;
+    aspect-ratio: 2 / 1;
+    margin: 20px auto;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; 
+    align-items: center;
+    padding: 40px; 
+    border-collapse: collapse;
+}
+
+.table tr, .table td {
+    display: block; 
+    width: 100%;
+    text-align: center;
+    border: none;
+    margin: 0;
+}
+
+input {
+
+    text-align: center;
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgb(190, 185, 185);
+}
+
+/* Hide the spin buttons in WebKit browsers */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+button{
+
+    background: #ededed;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    box-shadow: 1px 2px 2px;
+    font-family: inherit;
+}
+
+
+button:hover{
+
+    cursor: pointer;
+}
+
+button:active{
+
+    -webkit-box-shadow: inset 0px 0px 5px #c1c1c1;
+    -moz-box-shadow: inset 0px 0px 5px #c1c1c1;
+    box-shadow: inset 0px 0px 5px #c1c1c1;
+    outline: none;
+}
+
+
+.container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 100px;
+    align-items: center;
+}
+
+.funds-container{
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 200px;
+    align-self: center;
+}
+
+.action-container > *{
+
+    margin-top: 10px;
+}
+
+
+html{
+
+    font-family: quantico;
+}
+
+.quantico-regular {
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.quantico-bold {
+  font-family: "Quantico", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.quantico-regular-italic {
+  font-family: "Quantico", sans-serif;
+  font-weight: 400;
+  font-style: italic;
+}
+
+.quantico-bold-italic {
+  font-family: "Quantico", sans-serif;
+  font-weight: 700;
+  font-style: italic;
+}
