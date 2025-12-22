@@ -18,6 +18,12 @@
     box-sizing: content-box;
 }
 
+.container-login{
+
+
+}
+
+
 .bet{
 
     display: flex;
@@ -103,6 +109,12 @@
     letter-spacing: 1px;
 }
 
+.hit-button:disabled, .stand-button:disabled{
+
+    background-color: rgba(0, 0, 0, 50%) !important;
+    
+} 
+
 svg{
 
     width: 100px;
@@ -112,8 +124,6 @@ svg{
 
 .table {
     
-    border: 1px solid black;
-
     display: flex;
     flex-direction: column; 
     align-items: center;
@@ -137,7 +147,7 @@ input {
     border: 1px solid rgb(190, 185, 185);
 }
 
-/* Hide the spin buttons in WebKit browsers */
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -167,7 +177,6 @@ button:active{
     box-shadow: inset 0px 0px 5px #c1c1c1;
     outline: none;
 }
-
 
 .container{
 

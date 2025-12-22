@@ -15,6 +15,11 @@
             <table class="table">
                 <tr>
                     <td>
+                        <span id="dealer-points">-</span> 
+                    </td>
+                </tr>
+                <tr>
+                    <td>
                         <div class="dealer">
                             Dealer
 
@@ -35,22 +40,27 @@
                         </div>
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <span id="player-points">-</span> 
+                    </td>
+                </tr>
             </table>
 
             <div class="bet">
                 
                 <div>
-                    <button onclick="stand()" class="stand-button"></button>
+                    <button onclick="stand()" class="stand-button" id="stand-button" disabled></button>
                     <br>
                     Stand
                 </div>
                 
-                <button onclick="bet()" class="bet-button">
+                <button onclick="bet()" class="bet-button" id="bet-button">
                     Bet
                 </button>
 
                 <div>
-                    <button onclick="hit()" class="hit-button"></button>
+                    <button onclick="hit()" class="hit-button" id="hit-button" disabled></button>
                     <br>Hit
                 </div>
 
@@ -69,7 +79,7 @@
                         </button>
                     </div>
                     <span class="balance" id="balance">
-                        Balance: 
+                        Balance: 1000
                     </span>
                 </div>
            </div>
