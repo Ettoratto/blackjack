@@ -75,9 +75,12 @@ function bet(){
 
         balanceDisplay.innerHTML = "Balance: " + players[1].balance
         dealFirstHand()
-    }else{
+    }else{  
         window.alert("Broke :/")
+        resetGame()
     }
+
+
 }
 
 
@@ -205,21 +208,29 @@ function endOfRound(n, blackjack = false){
 
 function winCalc(winner, blackjack = false){
 
+    let profit = 0
     if(winner != "Dealer"){
 
         if(blackjack)
-            players[1].balance += betAmount + (betAmount * 1.5)
+            profit = betAmount + (betAmount * 1.5)
         else
-            players[1].balance += 2 * betAmount 
+           profit = 2 * betAmount 
     }
+    
+    players[1].balance += profit
 
-    loadWinScreen(winner)
+    loadWinScreen(winner, profit)
 
 }
 
-function loadWinScreen(winner){
+function loadWinScreen(winner, profit){
 
-    document.getElementById("winner-name").innerHTML = winner
+    document.getElementById("winner-name").innerHTML = winner + "Wins"
+    if(winner != "Dealer")
+            document.getElementById("winner-name").innerHTML += "<br>Win: " + profit
+        
+    balanceDisplay.innerHTML += " + " + profit
+
     document.getElementById("winner").hidden = false
     betButton.disabled = false
 }
@@ -232,6 +243,13 @@ function resetGame(){
     playerPointsDisplay.innerHTML = 0
     players[0].points = 0
     players[1].points = 0
+
+    players[0].cards.innerHTML = ""
+    players[1].cards.innerHTML = ""
+
+    betButton.disabled = false
+    hitButton.disabled = true
+    standButton.disabled = true
 
     document.getElementById("winner").hidden = true
        
@@ -249,7 +267,7 @@ function updatePlayerName() {
 
     if (nameTrim.toLocaleLowerCase() != "dealer")
         players[1].name = nameTrim
-     else {
+    else {
         playerName.innerHTML = "Player"
         players[1].name = "Player"
         alert("Name can't be 'Dealer'")
