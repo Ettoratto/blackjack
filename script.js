@@ -25,24 +25,73 @@ for(i = 2; i < 11; i++){
     cards.push({name:"spade" + i,value: i})
 }
 
-
 let c = 0
+
 
 let cardData = null
 
+function openCardDatabase() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('BlackjackDB', 1)
+        
+        request.onerror = () => reject(request.error)
+        request.onsuccess = () => resolve(request.result)
+        
+        request.onupgradeneeded = (event) => {
+            const db = event.target.result
+            if (!db.objectStoreNames.contains('cards')) {
+                db.createObjectStore('cards')
+            }
+        }
+    })
+}
+
+async function getCachedCards() {
+    try {
+        const db = await openCardDatabase()
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['cards'], 'readonly')
+            const store = transaction.objectStore('cards')
+            const request = store.get('cardData')
+            
+            request.onsuccess = () => resolve(request.result)
+            request.onerror = () => reject(request.error)
+        })
+    } catch (error) {
+        console.error('Error reading from cache:', error)
+        return null
+    }
+}
+
+async function cacheCards(data) {
+    try {
+        const db = await openCardDatabase()
+        return new Promise((resolve, reject) => {
+            const transaction = db.transaction(['cards'], 'readwrite')
+            const store = transaction.objectStore('cards')
+            const request = store.put(data, 'cardData')
+            
+            request.onsuccess = () => resolve()
+            request.onerror = () => reject(request.error)
+        })
+    } catch (error) {
+        console.error('Error caching cards:', error)
+    }
+}
+
 async function init() {
 
-    const cachedCards = localStorage.getItem('cardData')
+    const cachedCards = await getCachedCards()
     
     if (cachedCards) {
 
-        cardData = JSON.parse(cachedCards)
+        cardData = cachedCards
         console.log('Cards loaded from cache')
     } else {
 
         const response = await fetch("./cards.json")
         cardData = await response.json()
-        localStorage.setItem('cardData', JSON.stringify(cardData))
+        await cacheCards(cardData)
         console.log('Cards fetched and cached')
     }
     
@@ -242,11 +291,14 @@ function winCalc(winner, blackjack = false){
 
 function loadWinScreen(winner, profit){
 
-    document.getElementById("winner-name").innerHTML = winner + " Wins"
-    if(winner != "Dealer")
-            document.getElementById("winner-name").innerHTML += "<br>Win: " + profit
+    let winnerDisplay = document.getElementById("winner-name")
+    
+    winnerDisplay.innerHTML = winner + " Wins"
+    if(winner != "Dealer"){
+        winnerDisplay.innerHTML += "<br>Win: " + profit
+        balanceDisplay.innerHTML += " + " + profit
+    }
         
-    balanceDisplay.innerHTML += " + " + profit
 
     document.getElementById("winner").hidden = false
     betButton.disabled = false

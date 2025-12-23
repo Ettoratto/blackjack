@@ -198,6 +198,7 @@ button:active{
 
 .winner{
     position: absolute;
+    width: 100px;
     left: 100%;
     margin-left: 20px;
     font-size: 1em;
