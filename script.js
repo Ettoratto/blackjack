@@ -26,8 +26,7 @@ for(i = 2; i < 11; i++){
 }
 
 
-let c;
-shuffle()
+let c = 0
 
 let cardData = null
 
@@ -36,6 +35,10 @@ async function init() {
     cardData = await response.json()
 
 }
+
+let betAmount = 0
+
+let playerName = document.getElementById("player-name")
 
 let standButton = document.getElementById("stand-button")
 let hitButton = document.getElementById("hit-button")
@@ -49,25 +52,31 @@ let dealerCards = document.getElementById("dealer-cards")
 let playerCards = document.getElementById("player-cards")
 
 
-let players = [{points: 0, aces: 0, cards: dealerCards}, {points: 0, aces: 0, balance: 1000, cards: playerCards}] //dealer, player
+let players = [
+        {name: "Dealer", points: 0, aces: 0, cards: dealerCards}, 
+        {name: playerName.innerHTML, points: 0, aces: 0, balance: 1000, cards: playerCards}
+    ]
 
 
 
 function bet(){
 
+    resetGame()
+
     betButton.disabled = true
     hitButton.disabled = false
     standButton.disabled = false
-    let amount = parseInt(document.getElementById("bet-amount").value)
 
-    if(players[1].balance >= amount){
+    betAmount = parseInt(document.getElementById("bet-amount").value)
+
+    if(players[1].balance >= betAmount){
         
-        players[1].balance -= amount
+        players[1].balance -= betAmount
 
         balanceDisplay.innerHTML = "Balance: " + players[1].balance
         dealFirstHand()
     }else{
-        error()
+        window.alert("Broke :/")
     }
 }
 
@@ -83,19 +92,14 @@ function dealFirstHand(){
         if(i < 2){
             if(isAce(cards[c].name))
                 players[0].aces++
-            players[0].points = getPoints(cards[c], players[0].points, players[0].aces)
+            players[0].points = getPoints(cards[c], 0)
         }else{
             if(isAce(cards[c].name))
                 players[1].aces++
-            players[1].points = getPoints(cards[c], players[1].points, players[1].aces)
+            players[1].points = getPoints(cards[c], 1)
         }
         c++
     }
-
-    if(players[1].points == 21)
-        endOfRound(1, true)
-
-
 
     dealerPointsDisplay.innerHTML = "?"
     players[0].cards.innerHTML =  dealt[0] + "<span id='facedown'>" + cardData["redBack"] + "</span>" + "<span id='faceup' hidden>" + dealt[1] + "</span>"
@@ -103,28 +107,48 @@ function dealFirstHand(){
     playerPointsDisplay.innerHTML = players[1].points
     players[1].cards.innerHTML = dealt[2] + dealt[3]
 
+    if(players[1].points == 21)
+        endOfRound(1, true)
+
 }
 
 function hit(n = 1){
-
-    console.log("Aces: " + players[n].aces)
 
     players[n].cards.innerHTML += cardData[cards[c].name]
     if(isAce(cards[c].name))
         players[n].aces++
 
-    players[n].points = getPoints(cards[c], players[n].points, players[n].aces)
-    playerPointsDisplay.innerHTML = players[n].points
-
-    if(players[n].points == 21)
-        endOfRound(n)
+    players[n].points = getPoints(cards[c], n)
+    
+    if(n == 1)
+        playerPointsDisplay.innerHTML = players[n].points
+    else
+        dealerPointsDisplay.innerHTML = players[n].points
+    
     c++
+
+    if(players[n].points > 21)
+        endOfRound(+!n)
 }
 
 function stand(){
 
-    while(players[0].points < 17)
+    document.getElementById("facedown").hidden = true
+    document.getElementById("faceup").hidden = false
+
+    dealerPointsDisplay.innerHTML = players[0].points
+    let i = 0
+
+    while(players[0].points < 17){
+        i++
         hit(0)
+        dealerPointsDisplay.innerHTML = players[0].points
+    }
+
+    if(players[0].points <= 21 && (players[0].points >= players[1].points))
+        endOfRound(0, (players[0].points == 21 && i == 0))
+    else
+        endOfRound(1)
 }
 
 
@@ -149,31 +173,68 @@ function shuffle(){
 }
 
 
-function getPoints(card, points, aces){
+function getPoints(card, n){
 
-    let total = card.value + points
-    let i = 0
+    let total = card.value + players[n].points
 
-    while(total > 21 && i < aces){
+    while(total > 21 && players[n].aces > 0){
 
-        console.log((total > 21 && i < aces))
+        if(((card.value + players[n].points) - (players[n].aces * 10)) > 21 )
+            return total
         total -= 10
-        i++
+        players[n].aces--
     }
 
 
     return total
 }
 
-function endOfRound(n, blackjack){
+function endOfRound(n, blackjack = false){
 
-    if(blackjack)
-        playerPointsDisplay.innerHTML += "Blackjack!"
+    if(blackjack && n == 1)
+        playerPointsDisplay.innerHTML = "Blackjack!"
+    else if(blackjack && n == 0)
+        dealerPointsDisplay.innerHTML = "Blackjack!"
+
+    hitButton.disabled = true
+    standButton.disabled = true
+
+    winCalc(players[n].name, blackjack)
+
 }
 
-function error(){
+function winCalc(winner, blackjack = false){
 
+    if(winner != "Dealer"){
 
+        if(blackjack)
+            players[1].balance += betAmount + (betAmount * 1.5)
+        else
+            players[1].balance += 2 * betAmount 
+    }
+
+    loadWinScreen(winner)
+
+}
+
+function loadWinScreen(winner){
+
+    document.getElementById("winner-name").innerHTML = winner
+    document.getElementById("winner").hidden = false
+    betButton.disabled = false
+}
+
+function resetGame(){
+
+    shuffle()
+
+    dealerPointsDisplay.innerHTML = "?"
+    playerPointsDisplay.innerHTML = 0
+    players[0].points = 0
+    players[1].points = 0
+
+    document.getElementById("winner").hidden = true
+       
 }
 
 function isAce(card){
@@ -181,5 +242,18 @@ function isAce(card){
 
     return isAce.test(card)
 }
+
+function updatePlayerName() {
+
+    let nameTrim = playerName.innerHTML.trim()
+
+    if (nameTrim.toLocaleLowerCase() != "dealer")
+        players[1].name = nameTrim
+     else {
+        playerName.innerHTML = "Player"
+        players[1].name = "Player"
+        alert("Name can't be 'Dealer'")
+    }
+}       
 
 

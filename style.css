@@ -18,9 +18,10 @@
     box-sizing: content-box;
 }
 
-.container-login{
+#player-name{
 
-
+    padding: 0;
+    width: auto;
 }
 
 
@@ -184,6 +185,13 @@ button:active{
     flex-direction: column;
     justify-content: center;
     padding-top: 100px;
+    align-items: center;
+}
+
+.game-container{
+
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 

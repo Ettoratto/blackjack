@@ -12,40 +12,45 @@
         <script src="./script.js" defer></script>
 
         <div class="container">  
-            <table class="table">
-                <tr>
-                    <td>
-                        <span id="dealer-points">-</span> 
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="dealer">
-                            Dealer
+            <div class="game-container">
+                <table class="table">
+                    <tr>
+                        <td>
+                            <span id="dealer-points">-</span> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="dealer">
+                                Dealer
 
-                            <div class="cards" id="dealer-cards">
-                                
+                                <div class="cards" id="dealer-cards">
+                                    
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="player">
-                            <span contenteditable="true">Player</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="player">
+                                <span contenteditable="true" id="player-name" onblur="updatePlayerName()">Player</span>
 
 
-                            <div class="cards" id="player-cards">
+                                <div class="cards" id="player-cards">
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <span id="player-points">-</span> 
-                    </td>
-                </tr>
-            </table>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <span id="player-points">-</span> 
+                        </td>
+                    </tr>
+                </table>
+                <div class="winner" id="winner" hidden>
+                    <span id="winner-name"></span> Wins
+                </div>
+            </div>
 
             <div class="bet">
                 
