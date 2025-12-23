@@ -31,9 +31,26 @@ let c = 0
 let cardData = null
 
 async function init() {
-    const response = await fetch("./cards.json")
-    cardData = await response.json()
 
+    const cachedCards = localStorage.getItem('cardData')
+    
+    if (cachedCards) {
+
+        cardData = JSON.parse(cachedCards)
+        console.log('Cards loaded from cache')
+    } else {
+
+        const response = await fetch("./cards.json")
+        cardData = await response.json()
+        localStorage.setItem('cardData', JSON.stringify(cardData))
+        console.log('Cards fetched and cached')
+    }
+    
+
+    const loadingScreen = document.getElementById('loading-screen')
+    if (loadingScreen) {
+        loadingScreen.classList.add('hidden')
+    }
 }
 
 let betAmount = 0
@@ -76,7 +93,7 @@ function bet(){
         balanceDisplay.innerHTML = "Balance: " + players[1].balance
         dealFirstHand()
     }else{  
-        window.alert("Broke :/")
+        window.alert("skill issue :/")
         resetGame()
     }
 
@@ -225,7 +242,7 @@ function winCalc(winner, blackjack = false){
 
 function loadWinScreen(winner, profit){
 
-    document.getElementById("winner-name").innerHTML = winner + "Wins"
+    document.getElementById("winner-name").innerHTML = winner + " Wins"
     if(winner != "Dealer")
             document.getElementById("winner-name").innerHTML += "<br>Win: " + profit
         
